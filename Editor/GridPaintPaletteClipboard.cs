@@ -1402,8 +1402,6 @@ namespace UnityEditor.Tilemaps
         {
             if (m_HoverData == null)
             {
-                DragAndDrop.Drop()
-                
                 var sheets = TileDragAndDrop.GetValidSpritesheets(DragAndDrop.objectReferences);
                 var sprites = TileDragAndDrop.GetValidSingleSprites(DragAndDrop.objectReferences);
                 var tiles = TileDragAndDrop.GetValidTiles(DragAndDrop.objectReferences);
