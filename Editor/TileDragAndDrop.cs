@@ -80,7 +80,9 @@ namespace UnityEditor.Tilemaps
             var result = new Dictionary<Vector2Int, TileDragAndDropHoverData>();
             var currentPosition = new Vector2Int(0, 0);
             var width = 0;
-
+            
+            TileUtility.ConvertHoverDataHandler?.Invoke(sheetTextures, singleSprites, tiles, gos, cellLayout);
+            
             if (sheetTextures != null)
             {
                 foreach (var sheetTexture in sheetTextures)

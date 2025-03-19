@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -8,6 +9,21 @@ namespace UnityEditor.Tilemaps
     /// </summary>
     public class TileUtility
     {
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatic()
+        {
+            ConvertHoverDataHandler = null;
+        }
+        
+        public delegate void ConvertHoverData(List<Texture2D> sheetTextures
+            , List<Sprite> singleSprites
+            , List<TileBase> tiles
+            , List<GameObject> gos
+            , GridLayout.CellLayout cellLayout);
+
+        /// <summary>Allow to modify the current list of objects being dropped in the Tile Palette Editor</summary>
+        public static ConvertHoverData ConvertHoverDataHandler;
+        
         internal static void CreateNewTile()
         {
             string message = string.Format("Save tile'{0}':", "tile");
