@@ -9,12 +9,6 @@ namespace UnityEditor.Tilemaps
     /// </summary>
     public class TileUtility
     {
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void ResetStatic()
-        {
-            ConvertHoverDataHandler = null;
-        }
-        
         public delegate void ConvertHoverData(List<Texture2D> sheetTextures
             , List<Sprite> singleSprites
             , List<TileBase> tiles
