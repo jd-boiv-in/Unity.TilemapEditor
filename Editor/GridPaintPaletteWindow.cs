@@ -364,8 +364,9 @@ namespace UnityEditor.Tilemaps
         private void OnGUI()
         {
             // Keep repainting until all previews are loaded
-            if (AssetPreview.IsLoadingAssetPreviews())
-                Repaint();
+            // Getting excessive CPU usage from this... Doesn't seems necessary either...
+            //if (AssetPreview.IsLoadingAssetPreviews())
+            //    Repaint();
 
             // Release keyboard focus on click to empty space
             if (Event.current.type == EventType.MouseDown)
