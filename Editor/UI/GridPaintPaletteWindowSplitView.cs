@@ -17,6 +17,9 @@ namespace UnityEditor.Tilemaps
 
         public TilePaletteElement paletteElement => m_PaletteElement;
 
+#if DISABLE_BRUSH_EDITOR
+        public bool isVerticalOrientation => true;
+#else   
         public bool isVerticalOrientation
         {
             get
@@ -29,20 +32,27 @@ namespace UnityEditor.Tilemaps
                     value ? TwoPaneSplitViewOrientation.Vertical : TwoPaneSplitViewOrientation.Horizontal;
             }
         }
+#endif
 
         private float fullLength => isVerticalOrientation ? layout.height : layout.width;
 
+#if DISABLE_BRUSH_EDITOR
+        private bool isMinSplit => false;
+#else
         private bool isMinSplit => (fullLength - m_SplitView.fixedPaneDimension) <= minBottomSplitDimension;
-
+#endif
+        
         private float minTopSplitDimension => isVerticalOrientation ? 24f : 12f;
         private float minBottomSplitDimension => isVerticalOrientation ? 24f : 12f;
 
         public void ChangeSplitDimensions(float dimension)
         {
+#if !DISABLE_BRUSH_EDITOR
             var newLength = fullLength - dimension;
             var diff = newLength - m_SplitView.fixedPaneDimension;
             if (m_SplitView.m_Resizer != null)
                 m_SplitView.m_Resizer.ApplyDelta(diff);
+#endif
         }
 
         public GridPaintPaletteWindowSplitView(bool isVerticalOrientation)
@@ -54,6 +64,9 @@ namespace UnityEditor.Tilemaps
 
             m_PaletteElement = new TilePaletteElement();
 
+#if DISABLE_BRUSH_EDITOR
+            Add(m_PaletteElement);
+#else
             var brushesElement = new TilePaletteBrushModalElement();
             m_SplitView = new TwoPaneSplitView(0, -1, isVerticalOrientation ? TwoPaneSplitViewOrientation.Vertical : TwoPaneSplitViewOrientation.Horizontal);
             m_SplitView.contentContainer.Add(m_PaletteElement);
@@ -67,6 +80,7 @@ namespace UnityEditor.Tilemaps
             m_BrushElementToggle = this.Q<TilePaletteBrushElementToggle>();
             m_BrushElementToggle.ToggleChanged += BrushElementToggleChanged;
             m_BrushElementToggle.SetValueWithoutNotify(!isMinSplit);
+#endif
         }
 
         private void BrushElementToggleChanged(bool show)
@@ -83,6 +97,7 @@ namespace UnityEditor.Tilemaps
 
         private void OnGeometryChanged(GeometryChangedEvent evt)
         {
+#if !DISABLE_BRUSH_EDITOR
             m_BrushElementToggle.SetValueWithoutNotify(!isMinSplit);
 
             if (m_SplitView.fixedPaneDimension < 0f)
@@ -111,6 +126,7 @@ namespace UnityEditor.Tilemaps
                 var newLastSplit = Mathf.Max(newDimension, kMinSplitRatio * fullLength);
                 m_LastSplitRatio = newLastSplit / fullLength;
             }
+#endif
         }
     }
 }

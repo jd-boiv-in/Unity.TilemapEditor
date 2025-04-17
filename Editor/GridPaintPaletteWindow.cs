@@ -433,8 +433,9 @@ namespace UnityEditor.Tilemaps
         {
             var state = !m_ClipboardSplitView.isVerticalOrientation;
             tilePaletteVerticalBrushSplit = state;
+#if !DISABLE_BRUSH_EDITOR
             m_ClipboardSplitView.isVerticalOrientation = state;
-
+#endif
             SceneView.RepaintAll();
         }
 
